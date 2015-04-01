@@ -30,10 +30,10 @@ public class Location extends Application {
 	
 	}
 	
-	/**
-	 * 显示字符串
-	 * @param str
-	 */
+	/******************************************************** 
+	*函数名称：logMsg 
+	*说明：   开启服务AutoUpdateService
+	*********************************************************/ 
 	public void logMsg(String str) {
 		try {
 			mData = str;
@@ -47,6 +47,11 @@ public class Location extends Application {
 		}
 	}
 	
+	/******************************************************** 
+	*函数名称：getcity 
+	*参数说明：src 地理位置；
+	*说明：   由地理位置获取城市名
+	*********************************************************/
 	protected String getcity(String src){
 	    String xian = "市"+"(.*)"+"县";              //县
 	    Pattern p = Pattern.compile(xian);
@@ -54,7 +59,7 @@ public class Location extends Application {
 	    if(m.find()){
 	        return m.group(1);
 	    }
-	    //2015/04/01  注释掉区，由于部分区的天气无法获取，例如广州越秀区
+	    //2015/04/01  注释掉区，由于部分区的天气无法获取，例如广州市越秀区
 //	    else{                                               
 //	    	 String qu = "市"+"(.*)"+"区";         //区           
 //	    	 p = Pattern.compile(qu);
@@ -91,9 +96,10 @@ public class Location extends Application {
 //	          }
 	    }
    }
-	/**
-	 * 监听函数，又新位置的时候，格式化成字符串，输出到屏幕中
-	 */
+	
+	/******************************************************** 
+	*监听函数，更新新位置的时候，格式化成字符串，输出到屏幕中 
+	*********************************************************/ 
 	public class MyLocationListenner implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
@@ -114,7 +120,7 @@ public class Location extends Application {
 			else{
 				SharedPreferences sharedPreferences = getSharedPreferences("precity", Context.MODE_PRIVATE);
 				String name = sharedPreferences.getString("name", "");
-				if( name==null ){
+				if( name==null || name==""){
 					Toast toast = Toast.makeText(getApplicationContext(),
 						     "亲，网络无连接，请打开网络后再试", Toast.LENGTH_LONG);
 						   toast.setGravity(Gravity.CENTER, 0, 0);
@@ -147,12 +153,13 @@ public class Location extends Application {
 				SharedPreferences sharedPreferences = getSharedPreferences("precity", Context.MODE_PRIVATE);
 				Editor editor = sharedPreferences.edit();
 				editor.putString("name", citydata);
+				editor.commit();
 				logMsg(citydata);
 			}
 			else{
 				SharedPreferences sharedPreferences = getSharedPreferences("precity", Context.MODE_PRIVATE);
 				String name = sharedPreferences.getString("name", "");
-				if( name==null ){
+				if( name==null || name==""){
 					Toast toast = Toast.makeText(getApplicationContext(),
 						     "亲，网络无连接，请打开网络后再试", Toast.LENGTH_LONG);
 						   toast.setGravity(Gravity.CENTER, 0, 0);

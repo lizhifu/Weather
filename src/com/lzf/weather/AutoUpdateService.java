@@ -85,13 +85,16 @@ public class AutoUpdateService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
-	//更新天气
+	/******************************************************** 
+	*函数名称：UpdateWeather 
+	*说明： 更新天气
+	*********************************************************/ 
     public void UpdateWeather(){
     	if(!checknetwork()) {
     		 setnotify(0);           //  网络是否连接成功    不成功则发送通知0
     		 return;
     	}
-    	if (editcity==null){
+    	if (editcity==null || editcity==""){
     		SharedPreferences sharedPreferences = getSharedPreferences("precity", Context.MODE_PRIVATE);
     		editcity=sharedPreferences.getString("name", "");
     	}
@@ -116,7 +119,10 @@ public class AutoUpdateService extends Service {
     }
 	
 	
-	//检查是否有网络
+	/******************************************************** 
+	*函数名称：checknetwork 
+	*说明： 检测网络是否可用
+	*********************************************************/ 
 	protected boolean checknetwork(){
 		ConnectivityManager connectionManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE); 
 	    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo(); 
@@ -199,7 +205,9 @@ public class AutoUpdateService extends Service {
 	
 
 	
-	//获取天气
+	/********************************************************  
+	*说明： 获取天气
+	*********************************************************/ 
     	Runnable runNow =new Runnable(){
     		public void run() {
     			
@@ -329,7 +337,9 @@ public class AutoUpdateService extends Service {
    	
     
 	
-	//网络变化则更新天气
+    	/******************************************************** 
+    	*说明： 网络变化则更新天气
+    	*********************************************************/ 
 	class NetworkChangeReceiver extends BroadcastReceiver { 
 		 
 		public void onReceive(Context context, Intent intent) {
